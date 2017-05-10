@@ -1,0 +1,69 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+{% if is_reported %}
+<script>alert("You are successfully reported a case.")</script>
+    {% else %}
+    <form method="post" action="{% url 'report' %}">
+	{% csrf_token %}
+	<p id="notice"></p>
+	<script>
+	var x = document.getElementById("notice");
+	if(navigator.geolocation){
+	navigator.geolocation.getCurrentPosition(showPosition);
+	} else {
+	x.innerHTML = "Geolocation is not supported by this browser.";
+	}
+	
+	function showPosition(position){
+	var loclat = position.coords.latitude;
+	var loclon = position.coords.longitude;
+	document.getElementById("poslat").value = loclat;
+	document.getElementById("poslon").value = loclon;
+	}
+	</script>
+	<div>
+	<table>
+	<tr>
+	<td><b>Vector:</b></td>
+	</tr>
+	<tr>
+	<td><input type="radio" name="Vector" value="aedes">Aedes Mosquito</td>
+	</tr>
+	<tr>
+	<td><input type="radio" name="Vector" value="rat">Rat</td>
+	</tr>
+	</table>
+	</div>
+    <div>
+	<table>
+	<tr>
+	<td><b>Vector Amount:</b></td>
+	</tr>
+	<tr>
+	<td><input type="radio" name="Vector_Number" value="5">1-10</td>
+	</tr>
+	<tr>
+	<td><input type="radio" name="Vector_Number" value="18">11-25</td>
+	</tr>
+	<tr>
+	<td><input type="radio" name="Vector_Number" value="38">26-50</td>
+	</tr>
+	<tr>
+	<td><input type="radio" name="Vector_Number" value="75">51-100</td>
+	</tr>
+	</table>
+	</div>
+	<div>
+	<td><label for="poslat">Latitude</label></td>
+	<td><input type="text" name="Latitude" id="poslat" /></td>
+	</div>
+	<div>
+	<td><label for="poslon">Longitude</label></td>
+	<td><input type="text" name="Longitude" id="poslon" /></td>
+	</div>
+	<input type="submit" value="Report" />
+    </form>
+	{% endif %}
+{% endblock %}
